@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { MessageSquare, Menu, X, ShieldCheck } from "lucide-react";
 
@@ -25,7 +26,8 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      id="main-header"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "py-4 bg-brand-navy/60 backdrop-blur-md border-b border-brand-silver/5 shadow-lg"
           : "py-6 bg-transparent"
@@ -35,28 +37,16 @@ export default function Header() {
         {/* Brand Logo & Name */}
         <div 
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center cursor-pointer group"
         >
-          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-blue to-brand-amber p-[2px] flex items-center justify-center shadow-lg shadow-brand-blue/20">
-            <div className="w-full h-full bg-brand-navy rounded-[10px] flex items-center justify-center font-mono font-bold text-lg text-brand-silver">
-              AK
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold tracking-tight text-brand-silver group-hover:text-brand-blue transition-colors duration-300">
-                ABKREA
-              </span>
-              <div className="relative group/badge">
-                <ShieldCheck className="w-4.5 h-4.5 text-brand-amber fill-brand-amber/15" />
-                <div className="absolute left-1/2 -translate-x-1/2 top-6 bg-brand-navy-light text-brand-amber text-[10px] font-mono font-semibold py-1 px-2.5 rounded-md border border-brand-amber/20 opacity-0 scale-95 pointer-events-none transition-all duration-300 group-hover/badge:opacity-100 group-hover/badge:scale-100 z-50 whitespace-nowrap">
-                  SETEC-CAL-2018-092
-                </div>
-              </div>
-            </div>
-            <span className="text-[10px] uppercase font-mono tracking-widest text-brand-silver/50">
-              Ingeniería
-            </span>
+          <div className="relative h-8 w-32 md:h-9 md:w-36 transition-opacity duration-300 opacity-90 hover:opacity-100">
+            <Image
+              src="/AbKrea-logo.svg"
+              alt="AbKrea Logo"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ShieldCheck, MessageSquare, Award } from "lucide-react";
 
 export default function ProfileHeader() {
@@ -17,8 +18,14 @@ export default function ProfileHeader() {
         {/* Left: Avatar Logo Container */}
         <div className="relative group">
           <div className="w-28 h-28 md:w-32 md:h-32 rounded-full story-ring flex items-center justify-center p-[4px] shadow-2xl transition-transform duration-500 group-hover:scale-105">
-            <div className="w-full h-full rounded-full bg-brand-navy flex items-center justify-center font-mono font-bold text-2xl tracking-tighter text-brand-silver border-2 border-brand-navy">
-              AK
+            <div className="w-full h-full rounded-full bg-brand-navy relative overflow-hidden border-2 border-brand-navy p-4 flex items-center justify-center">
+              <Image
+                src="/AbKrea-logo.svg"
+                alt="AbKrea Logo"
+                width={120}
+                height={40}
+                className="object-contain"
+              />
             </div>
           </div>
           <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-brand-amber text-[9px] font-mono font-bold uppercase tracking-wider text-brand-navy z-10 border border-brand-navy shadow-lg">

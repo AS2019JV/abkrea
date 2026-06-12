@@ -224,8 +224,14 @@ export default function StoriesHighlights() {
 
               {/* Top info badge */}
               <div className="absolute top-8 left-6 right-6 z-20 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-brand-blue flex items-center justify-center text-brand-silver text-xs font-mono font-bold">
-                  AK
+                <div className="w-8 h-8 rounded-full bg-brand-navy-light border border-brand-silver/10 relative overflow-hidden flex items-center justify-center p-1.5">
+                  <Image
+                    src="/AbKrea-logo.svg"
+                    alt="AbKrea Logo"
+                    width={24}
+                    height={8}
+                    className="object-contain"
+                  />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-semibold tracking-tight text-brand-silver">

@@ -10,18 +10,20 @@ import CompanyInfo from "@/components/CompanyInfo";
 export default function Home() {
   return (
     <>
-      {/* High-Fidelity Scroll and Background video controllers */}
+      {/* High-Fidelity Scroll and Animation sync */}
       <ScrollEngine />
-      <VideoBackground />
 
       {/* Floating Header Navigation */}
       <Header />
 
-      {/* Initial Landing Frame (transparent center framing Video A) */}
-      <HeroIntro />
+      {/* Cinematic Scroll Container (300vh controls the scroll timeline of the video) */}
+      <div id="cinematic-container" className="relative h-[300vh] w-full bg-brand-navy">
+        <VideoBackground />
+        <HeroIntro />
+      </div>
 
-      {/* Primary Content Container scrolling up over Video B */}
-      <main className="relative z-20 bg-gradient-to-b from-transparent via-brand-navy/70 to-brand-navy pt-8">
+      {/* Primary Content Container scrolling up after the video finishes */}
+      <main className="relative z-20 bg-gradient-to-b from-transparent via-brand-navy/80 to-brand-navy pt-8">
         
         {/* Instagram-style profile stats card */}
         <ProfileHeader />
