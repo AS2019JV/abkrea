@@ -88,7 +88,7 @@ export default function Header() {
 
       {/* Mobile Navigation Drawer */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed top-[73px] left-0 right-0 bottom-0 bg-brand-navy/95 backdrop-blur-lg border-t border-brand-silver/5 flex flex-col justify-between p-8 z-40 animate-fade-in">
+        <div className="md:hidden fixed top-[73px] left-0 right-0 bottom-0 glass-apple flex flex-col justify-between p-8 z-40 animate-fade-in">
           <nav className="flex flex-col gap-6 text-lg font-semibold">
             {["cursos", "nosotros", "certificaciones", "contacto"].map((section) => (
               <button

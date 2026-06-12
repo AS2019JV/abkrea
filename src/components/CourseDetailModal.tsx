@@ -81,8 +81,9 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
       // Output to console to demonstrate mock database storage
       console.log("[MOCK LEAD STORAGE SUCCESS]:", leadPayload);
 
-      // Trigger automatic backup email trigger log
-      console.log(`[CRM TRIGGER]: Programmatic notification scheduled to: asistencia.abkrea@gmail.com`);
+      // Trigger automatic backup email trigger log using env configuration
+      const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "asistencia.abkrea@gmail.com";
+      console.log(`[CRM TRIGGER]: Programmatic notification scheduled to: ${adminEmail}`);
 
       setFormStatus("success");
       setFormData({ fullName: "", email: "", phone: "", consent: false });
@@ -112,7 +113,7 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
       onClick={onClose}
     >
       <motion.div
@@ -125,23 +126,36 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
       >
         
         {/* Left Side: Dynamic Media showcase */}
-        <div className="relative h-60 md:h-auto min-h-[250px] bg-brand-navy-light overflow-hidden">
+        <div className="relative h-72 md:h-full min-h-[300px] md:min-h-[450px] bg-brand-navy-light/40 overflow-hidden flex items-center justify-center">
+          {/* Blurred duplicate background to fill spaces with premium aesthetics */}
           <Image
             src={course.image}
-            alt={course.title}
+            alt=""
             fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 450px"
+            className="object-cover blur-2xl opacity-20 scale-110"
+            sizes="10vw"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-transparent to-brand-navy/60" />
           
-          <div className="absolute bottom-6 left-6 z-10 flex flex-col gap-1.5">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-brand-amber font-bold px-2 py-0.5 rounded bg-brand-amber/10 border border-brand-amber/25 w-fit">
+          {/* Clean Foreground containment displaying the entire flyer without cuts */}
+          <div className="relative w-full h-full min-h-[260px] md:min-h-[380px] p-4 flex items-center justify-center z-10">
+            <Image
+              src={course.image}
+              alt={course.title}
+              fill
+              className="object-contain p-2"
+              sizes="(max-width: 768px) 100vw, 450px"
+              priority
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-transparent to-brand-navy/60 z-20 pointer-events-none" />
+          
+          <div className="absolute bottom-6 left-6 z-30 flex flex-col gap-1.5 pointer-events-none">
+            <span className="text-xs font-mono uppercase tracking-widest text-brand-amber font-bold px-2 py-0.5 rounded bg-brand-amber/10 border border-brand-amber/25 w-fit">
               SETEC Certificado
             </span>
-            <h3 className="text-2xl font-bold tracking-tight text-brand-silver">{course.title}</h3>
-            <p className="text-xs text-brand-silver/80">{course.tagline}</p>
+            <h3 className="text-xl md:text-2xl font-bold tracking-tight text-brand-silver drop-shadow-md">{course.title}</h3>
+            <p className="text-xs text-brand-silver/80 drop-shadow">{course.tagline}</p>
           </div>
         </div>
 
@@ -211,7 +225,7 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
               </div>
               <span className="font-bold text-brand-silver">¡Datos Recibidos con éxito!</span>
               <p className="text-xs text-brand-silver/70 max-w-xs leading-relaxed">
-                Nos comunicaremos contigo en las próximas horas. También hemos enviado una alerta de seguimiento a <strong className="text-brand-blue">asistencia.abkrea@gmail.com</strong>.
+                Nos comunicaremos contigo en las próximas horas. También hemos enviado una alerta de seguimiento a <strong className="text-brand-blue">{process.env.NEXT_PUBLIC_ADMIN_EMAIL || "asistencia.abkrea@gmail.com"}</strong>.
               </p>
             </motion.div>
           ) : (

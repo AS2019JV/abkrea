@@ -12,12 +12,18 @@ export default function VideoBackground() {
     const video = videoRef.current;
     if (!video) return;
 
-    // Force load video
+    // Force load video and play/pause immediately to unlock seeking on mobile/safari
     video.load();
+    video.play().then(() => {
+      video.pause();
+    }).catch((err) => {
+      console.log("Autoplay seek unlock caught:", err);
+    });
 
     // Set initial states to prevent flash of content and keep components hidden at start
     gsap.set("#main-header", { y: "-100%", opacity: 0 });
     gsap.set("#phrase-container", { opacity: 0, scale: 0.95 });
+    gsap.set("#mira-cursos", { opacity: 0, y: 30 });
     gsap.set("#cinematic-blue-overlay", { opacity: 0 });
     gsap.set(["#left-card-1", "#left-card-2"], { x: -50, opacity: 0 });
     gsap.set(["#right-card-1", "#right-card-2"], { x: 50, opacity: 0 });
@@ -114,8 +120,17 @@ export default function VideoBackground() {
     // 7. Phrase Container fades out as truck exits (virtual t = 8.4)
     tl.to("#phrase-container", { opacity: 0, y: -30, duration: 0.5 }, 8.4);
 
+    // 8. Mira Cursos prompt fades in at the end of video timeline (virtual t = 8.5)
+    tl.to("#mira-cursos", { opacity: 1, y: 0, duration: 0.6 }, 8.5);
+
+    // Delay refreshing ScrollTrigger to ensure all layout bounds are rendered
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
+
     return () => {
       tl.kill();
+      clearTimeout(refreshTimer);
     };
   }, []);
 

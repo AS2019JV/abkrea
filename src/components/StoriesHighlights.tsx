@@ -187,7 +187,7 @@ export default function StoriesHighlights() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4"
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4"
           >
             {/* Close trigger */}
             <button
@@ -245,21 +245,23 @@ export default function StoriesHighlights() {
 
               {/* Center: Story Slide Image */}
               <div className="absolute inset-0 z-10">
-                <Image
-                  src={activeHighlight.slides[currentSlideIndex].url}
-                  alt={activeHighlight.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 450px"
-                  priority
-                />
+                {activeHighlight.slides[currentSlideIndex] && (
+                  <Image
+                    src={activeHighlight.slides[currentSlideIndex]?.url || ""}
+                    alt={activeHighlight.title || ""}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 450px"
+                    priority
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-transparent to-brand-navy/60" />
               </div>
 
               {/* Bottom: Story Caption */}
               <div className="relative z-20 mt-auto pt-4 flex flex-col gap-4 bg-gradient-to-t from-brand-navy via-brand-navy/80 to-transparent p-4 rounded-2xl">
                 <p className="text-sm text-brand-silver leading-relaxed font-medium">
-                  {activeHighlight.slides[currentSlideIndex].caption}
+                  {activeHighlight.slides[currentSlideIndex]?.caption || ""}
                 </p>
                 
                 {/* Instant Link CTA */}
