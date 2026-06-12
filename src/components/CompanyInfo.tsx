@@ -57,27 +57,27 @@ export default function CompanyInfo() {
           </div>
 
           {/* Static Certificates layout grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
             
-            {/* Banner Certificate-1.webp */}
-            <div className="md:col-span-2 relative glass-panel rounded-2xl overflow-hidden aspect-[1237/312] border border-brand-silver/5 shadow-xl transition-all hover:scale-[1.01] hover:border-brand-silver/10">
+            {/* Certificate 1 - badgage.webp */}
+            <div className="relative glass-panel rounded-2xl overflow-hidden aspect-[432/578] border border-brand-silver/5 shadow-xl w-full max-w-[260px] transition-all hover:scale-[1.01] hover:border-brand-silver/10">
               <Image
-                src="/images/web/Certificate-1.webp"
-                alt="Registro de Calificación SETEC Banner"
+                src="/images/web/badgage.webp"
+                alt="Registro de Calificación SETEC 1"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 600px"
+                sizes="(max-width: 768px) 100vw, 260px"
               />
             </div>
 
-            {/* Badge Certificate-2.webp */}
-            <div className="relative glass-panel rounded-2xl overflow-hidden aspect-[407/482] border border-brand-silver/5 shadow-xl max-w-[260px] mx-auto md:max-w-none w-full transition-all hover:scale-[1.01] hover:border-brand-silver/10">
+            {/* Certificate 2 - badgage.webp */}
+            <div className="relative glass-panel rounded-2xl overflow-hidden aspect-[432/578] border border-brand-silver/5 shadow-xl w-full max-w-[260px] transition-all hover:scale-[1.01] hover:border-brand-silver/10">
               <Image
-                src="/images/web/Certificate-2.webp"
-                alt="Acreditación Oficial Sello SETEC"
+                src="/images/web/badgage.webp"
+                alt="Registro de Calificación SETEC 2"
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 300px"
+                sizes="(max-width: 768px) 100vw, 260px"
               />
             </div>
 

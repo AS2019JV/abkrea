@@ -26,14 +26,14 @@ export default function StoriesHighlights() {
       id: "acreditacion",
       title: "Aval SETEC",
       icon: <CertificateIcon className="w-5 h-5 text-brand-amber" />,
-      thumbnail: "/images/web/Certificate-2.webp",
+      thumbnail: "/images/web/badgage.webp",
       slides: [
         {
-          url: "/images/web/Certificate-2.webp",
+          url: "/images/web/badgage.webp",
           caption: "Acreditación Oficial SETEC-CAL-2018-092 emitida por el Ministerio de Trabajo y Senescyt.",
         },
         {
-          url: "/images/web/Certificate-1.webp",
+          url: "/images/web/badgage.webp",
           caption: "Validación de horas curriculares para la deducibilidad tributaria de su empresa.",
         },
       ],

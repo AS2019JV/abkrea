@@ -15,9 +15,12 @@ export default function VideoBackground() {
     // Force load video
     video.load();
 
-    // Set initial states to prevent flash of content
+    // Set initial states to prevent flash of content and keep components hidden at start
     gsap.set("#main-header", { y: "-100%", opacity: 0 });
     gsap.set("#phrase-container", { opacity: 0, scale: 0.95 });
+    gsap.set("#cinematic-blue-overlay", { opacity: 0 });
+    gsap.set(["#left-card-1", "#left-card-2"], { x: -50, opacity: 0 });
+    gsap.set(["#right-card-1", "#right-card-2"], { x: 50, opacity: 0 });
 
     const videoState = { time: 0 };
 
@@ -38,39 +41,33 @@ export default function VideoBackground() {
       duration: 2.0,
       ease: "none",
       onUpdate: () => {
-        if (video.duration) {
-          video.currentTime = videoState.time;
-        }
+        if (video.duration) video.currentTime = videoState.time;
       },
     }, 0)
-    // Scale down the video from 1.0 to 0.8 to counteract the truck sizing up (driving forward)
-    .to(videoRef.current, {
-      scale: 0.8,
+    // Scale down the foreground video from 0.95 to 0.85 to counteract the truck sizing up (driving forward)
+    .to(video, {
+      scale: 0.85,
       duration: 2.0,
       ease: "power1.out",
     }, 0)
 
-    // Segment 2: Scroll 22.2% to 61.1% (Video frozen at 6s, duration 3.5) - Sidebars fade in/out
+    // Segment 2: Scroll 22.2% to 61.1% (Video slow motion from 6s to 7.5s, duration 3.5) - Sidebars fade in/out
     .to(videoState, {
-      time: 6,
+      time: 7.5,
       duration: 3.5,
       ease: "none",
       onUpdate: () => {
-        if (video.duration) {
-          video.currentTime = 6;
-        }
+        if (video.duration) video.currentTime = videoState.time;
       },
     }, 2.0)
 
-    // Segment 3: Scroll 61.1% to 77.8% (Video 6s to 10s, duration 1.5) - Truck moves to side
+    // Segment 3: Scroll 61.1% to 77.8% (Video 7.5s to 10s, duration 1.5) - Truck moves to side (original speed)
     .to(videoState, {
       time: 10,
       duration: 1.5,
       ease: "none",
       onUpdate: () => {
-        if (video.duration) {
-          video.currentTime = videoState.time;
-        }
+        if (video.duration) video.currentTime = videoState.time;
       },
     }, 5.5)
 
@@ -80,9 +77,7 @@ export default function VideoBackground() {
       duration: 2.0,
       ease: "none",
       onUpdate: () => {
-        if (video.duration) {
-          video.currentTime = videoState.time;
-        }
+        if (video.duration) video.currentTime = videoState.time;
       },
     }, 7.0);
 
@@ -108,6 +103,8 @@ export default function VideoBackground() {
 
     // 5. Phrase Morphing container fades in (virtual t = 5.3)
     tl.to("#phrase-container", { opacity: 1, scale: 1, duration: 0.4 }, 5.3);
+    // Fade in the deep blue overlay to create the brand-blue theme for high text contrast when SETEC phrase appears
+    tl.to("#cinematic-blue-overlay", { opacity: 0.85, duration: 0.5 }, 5.3);
 
     // 6. Text-Clipping Mask Transition as truck moves right (virtual t = 7.0 to 8.3, video 10s to 12s)
     // Phrase 1 clips out to the right (left-to-right wipe), Phrase 2 reveals from the left (left-to-right reveal)
@@ -127,19 +124,29 @@ export default function VideoBackground() {
       className="sticky top-0 left-0 w-full h-screen z-0 bg-brand-navy overflow-hidden"
       style={{ pointerEvents: "none" }}
     >
-      {/* Dark gradient overlay for modern contrast and readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/60 via-brand-navy/20 to-brand-navy/70 z-10" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#0F172A_85%)] z-10" />
-
-      {/* Cinematic Single Video Layer */}
+      {/* 1. Centered foreground video with object-contain to fit the truck proportionally without cropping */}
+      {/* Soft edge feathering applied via radial-gradient mask-image */}
       <video
         ref={videoRef}
         src="/video/Abkrea-Truck.mp4"
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-cover scale-[1.0] will-change-transform"
-        style={{ filter: "brightness(0.8) contrast(1.05)", objectPosition: "center" }}
+        className="absolute inset-0 w-full h-full object-contain scale-[0.95] will-change-transform z-10"
+        style={{ 
+          objectPosition: "center",
+          maskImage: "radial-gradient(circle at center, black 65%, rgba(0, 0, 0, 0) 95%)",
+          WebkitMaskImage: "radial-gradient(circle at center, black 65%, rgba(0, 0, 0, 0) 95%)"
+        }}
+      />
+
+      {/* 2. Soft edge vignette to blend the container edges (always visible, but soft) */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_60%,#0F172A_95%)] opacity-35 z-20" />
+
+      {/* 3. Deeper brand-blue gradient overlay for the text contrast (faded in via GSAP when text appears) */}
+      <div 
+        id="cinematic-blue-overlay" 
+        className="absolute inset-0 bg-gradient-to-b from-brand-navy/85 via-brand-navy/40 to-brand-navy/90 opacity-0 z-25" 
       />
     </div>
   );
