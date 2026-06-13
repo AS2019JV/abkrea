@@ -197,9 +197,9 @@ export default function CoursesGrid() {
               {/* Spotlight cursor radial gradient */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(37,99,235,0.4)_0%,transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
 
-              {/* Bottom details block */}
-              <div className="flex flex-col gap-1.5 z-10 mt-auto tilt-inner">
-                <h3 className="text-base font-bold text-brand-silver group-hover:text-brand-blue transition-colors leading-tight drop-shadow-sm">
+              {/* Bottom details block - fades out on hover in desktop mode to show full card image */}
+              <div className="flex flex-col gap-1.5 z-10 mt-auto tilt-inner transition-opacity duration-300 group-hover:opacity-0">
+                <h3 className="text-base font-bold text-brand-silver leading-tight drop-shadow-sm">
                   {course.title}
                 </h3>
                 <p className="text-xs text-brand-silver/70 line-clamp-2 leading-relaxed">
@@ -257,14 +257,12 @@ export default function CoursesGrid() {
               </div>
 
               {/* Action Bar */}
-              <div className="flex items-center justify-between p-3.5 border-t border-brand-silver/5">
-                <div className="flex items-center gap-4 text-brand-silver">
-                  <Heart className="w-5 h-5 hover:text-red-500 transition-colors" />
-                  <MessageSquare className="w-5 h-5 hover:text-brand-blue transition-colors" />
-                  <Send className="w-5 h-5 hover:text-brand-blue transition-colors" />
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-brand-silver/60 font-mono">
-                  <Clock className="w-4 h-4 text-brand-blue" />
+              <div className="flex items-center justify-between p-3.5 border-t border-brand-silver/5 text-[11px]">
+                <span className="font-mono font-bold uppercase tracking-wider text-brand-blue">
+                  Curso Calificado SETEC
+                </span>
+                <div className="flex items-center gap-1.5 text-brand-silver/60 font-mono">
+                  <Clock className="w-4 h-4 text-brand-amber" />
                   <span>{course.duration}</span>
                 </div>
               </div>
@@ -285,53 +283,6 @@ export default function CoursesGrid() {
           </div>
         ))}
 
-        {/* Bento Trust Card 1: Graduates */}
-        <div className="spotlight-card glass-panel relative rounded-2xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-5 border border-brand-silver/5">
-          <div className="absolute inset-0 z-0 opacity-35">
-            <Image
-              src="/images/web/certificados.webp"
-              alt="Egresados reales AbKrea"
-              fill
-              className="object-cover"
-              sizes="300px"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/60 to-transparent" />
-          </div>
-          <div className="flex flex-col gap-1.5 z-10">
-            <div className="flex items-center gap-1.5 text-xs font-mono text-brand-amber font-bold mb-1">
-              <ShieldCheck className="w-4 h-4 text-brand-amber" />
-              <span>Garantía de Aprendizaje</span>
-            </div>
-            <h4 className="text-sm sm:text-base font-bold text-brand-silver leading-tight">Estudiantes Reales</h4>
-            <p className="text-xs text-brand-silver/70 leading-relaxed">
-              Egresados capacitados de forma práctica con sus títulos aprobados directamente en la sede de Ambato.
-            </p>
-          </div>
-        </div>
-
-        {/* Bento Trust Card 2: SETEC registry */}
-        <div className="spotlight-card glass-panel relative rounded-2xl overflow-hidden aspect-[4/5] flex flex-col justify-end p-5 border border-brand-silver/5">
-          <div className="absolute inset-0 z-0 opacity-35">
-            <Image
-              src="/images/web/badgage.webp"
-              alt="Acreditación SETEC"
-              fill
-              className="object-cover"
-              sizes="300px"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/60 to-transparent" />
-          </div>
-          <div className="flex flex-col gap-1.5 z-10">
-            <div className="flex items-center gap-1.5 text-xs font-mono text-brand-blue font-bold mb-1">
-              <Award className="w-4 h-4 text-brand-blue" />
-              <span>Incentivo Tributario B2B</span>
-            </div>
-            <h4 className="text-sm sm:text-base font-bold text-brand-silver leading-tight">Deducibilidad de Impuestos</h4>
-            <p className="text-xs text-brand-silver/70 leading-relaxed">
-              Capacitación calificada SETEC que permite deducir el gasto de capacitación laboral del Impuesto a la Renta anual de su empresa.
-            </p>
-          </div>
-        </div>
 
       </div>
 

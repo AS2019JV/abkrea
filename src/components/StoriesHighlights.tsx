@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, Award, Flame, Cpu, Wrench, Award as CertificateIcon, ChevronLeft, ChevronRight, MessageSquare } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -183,120 +184,158 @@ export default function StoriesHighlights() {
       {/* Full-Screen Slideshow Modal */}
       <AnimatePresence>
         {activeHighlight && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4"
-          >
-            {/* Close trigger */}
-            <button
-              onClick={() => setActiveHighlight(null)}
-              className="absolute top-6 right-6 z-50 p-3 rounded-full bg-brand-navy-light/60 backdrop-blur-md text-brand-silver hover:text-brand-blue border border-brand-silver/10 transition-colors cursor-pointer"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            {/* Main story box */}
-            <div className="relative w-full max-w-md aspect-[9/16] bg-brand-navy rounded-3xl overflow-hidden shadow-2xl border border-brand-silver/5 flex flex-col justify-between p-6">
-              
-              {/* Top: Progress Indicators */}
-              <div className="absolute top-4 left-6 right-6 z-20 flex gap-1.5">
-                {activeHighlight.slides.map((_, index) => (
-                  <div
-                    key={index}
-                    className="h-1 flex-1 bg-brand-silver/20 rounded-full overflow-hidden"
-                  >
-                    <div
-                      className="h-full bg-brand-blue rounded-full transition-all duration-[50ms]"
-                      style={{
-                        width:
-                          index < currentSlideIndex
-                            ? "100%"
-                            : index === currentSlideIndex
-                            ? `${progress}%`
-                            : "0%",
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Top info badge */}
-              <div className="absolute top-8 left-6 right-6 z-20 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-brand-navy-light border border-brand-silver/10 relative overflow-hidden flex items-center justify-center p-1.5">
-                  <Image
-                    src="/AbKrea-logo.svg"
-                    alt="AbKrea Logo"
-                    width={24}
-                    height={8}
-                    className="object-contain"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold tracking-tight text-brand-silver">
-                    {activeHighlight.title}
-                  </span>
-                  <span className="text-[10px] text-brand-silver/60">
-                    Hace un momento
-                  </span>
-                </div>
-              </div>
-
-              {/* Center: Story Slide Image */}
-              <div className="absolute inset-0 z-10">
-                {activeHighlight.slides[currentSlideIndex] && (
-                  <Image
-                    src={activeHighlight.slides[currentSlideIndex]?.url || ""}
-                    alt={activeHighlight.title || ""}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 450px"
-                    priority
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-transparent to-brand-navy/60" />
-              </div>
-
-              {/* Bottom: Story Caption */}
-              <div className="relative z-20 mt-auto pt-4 flex flex-col gap-4 bg-gradient-to-t from-brand-navy via-brand-navy/80 to-transparent p-4 rounded-2xl">
-                <p className="text-sm text-brand-silver leading-relaxed font-medium">
-                  {activeHighlight.slides[currentSlideIndex]?.caption || ""}
-                </p>
-                
-                {/* Instant Link CTA */}
-                <a
-                  href={`https://wa.me/593996511463?text=Hola%20AbKrea,%20estoy%20viendo%20el%20destacado%20de%20${activeHighlight.title}%20y%20quiero%20más%20detalles.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3 bg-brand-blue hover:bg-brand-blue-hover text-brand-silver text-xs font-semibold rounded-xl text-center shadow-lg transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Enviar Mensaje Rápido</span>
-                </a>
-              </div>
-
-              {/* Slide Navigation Triggers (Left / Right overlays) */}
-              <button
-                onClick={handlePrev}
-                disabled={currentSlideIndex === 0}
-                className={`absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-black/40 backdrop-blur-sm text-brand-silver hover:text-brand-blue transition-opacity cursor-pointer ${
-                  currentSlideIndex === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
-                }`}
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <button
-                onClick={handleNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-black/40 backdrop-blur-sm text-brand-silver hover:text-brand-blue cursor-pointer"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-
-            </div>
-          </motion.div>
+          <StoriesModal
+            activeHighlight={activeHighlight}
+            currentSlideIndex={currentSlideIndex}
+            progress={progress}
+            onClose={() => setActiveHighlight(null)}
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+interface StoriesModalProps {
+  activeHighlight: Highlight;
+  currentSlideIndex: number;
+  progress: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}
+
+function StoriesModal({
+  activeHighlight,
+  currentSlideIndex,
+  progress,
+  onClose,
+  onPrev,
+  onNext,
+}: StoriesModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4"
+    >
+      {/* Close trigger */}
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-6 z-50 p-3 rounded-full bg-brand-navy-light/60 backdrop-blur-md text-brand-silver hover:text-brand-blue border border-brand-silver/10 transition-colors cursor-pointer"
+      >
+        <X className="w-6 h-6" />
+      </button>
+
+      {/* Main story box (Square aspect ratio for complete image visibility) */}
+      <div className="relative w-full max-w-md aspect-square bg-brand-navy rounded-3xl overflow-hidden shadow-2xl border border-brand-silver/5 flex flex-col justify-between p-6">
+        
+        {/* Top: Progress Indicators */}
+        <div className="absolute top-4 left-6 right-6 z-20 flex gap-1.5">
+          {activeHighlight.slides.map((_, index) => (
+            <div
+              key={index}
+              className="h-1 flex-1 bg-brand-silver/20 rounded-full overflow-hidden"
+            >
+              <div
+                className="h-full bg-brand-blue rounded-full transition-all duration-[50ms]"
+                style={{
+                  width:
+                    index < currentSlideIndex
+                      ? "100%"
+                      : index === currentSlideIndex
+                      ? `${progress}%`
+                      : "0%",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Top info badge */}
+        <div className="absolute top-8 left-6 right-6 z-25 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-brand-navy-light border border-brand-silver/10 relative overflow-hidden flex items-center justify-center p-1.5">
+            <Image
+              src="/AbKrea-logo.svg"
+              alt="AbKrea Logo"
+              width={24}
+              height={8}
+              className="object-contain"
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold tracking-tight text-brand-silver">
+              {activeHighlight.title}
+            </span>
+            <span className="text-[10px] text-brand-silver/60">
+              Hace un momento
+            </span>
+          </div>
+        </div>
+
+        {/* Center: Story Slide Image (object-contain with padding to show entirely) */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-brand-navy-light/25">
+          {activeHighlight.slides[currentSlideIndex] && (
+            <Image
+              src={activeHighlight.slides[currentSlideIndex]?.url || ""}
+              alt={activeHighlight.title || ""}
+              fill
+              className="object-contain p-4 mt-6 mb-12"
+              sizes="(max-width: 768px) 100vw, 450px"
+              priority
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-transparent to-brand-navy/40 pointer-events-none" />
+        </div>
+
+        {/* Bottom: Story Caption */}
+        <div className="relative z-20 mt-auto pt-2 flex flex-col gap-3.5 bg-gradient-to-t from-brand-navy via-brand-navy/90 to-transparent p-4 rounded-2xl">
+          <p className="text-xs sm:text-sm text-brand-silver leading-relaxed font-medium">
+            {activeHighlight.slides[currentSlideIndex]?.caption || ""}
+          </p>
+          
+          {/* Instant Link CTA */}
+          <a
+            href={`https://wa.me/593996511463?text=Hola%20AbKrea,%20estoy%20viendo%20el%20destacado%20de%20${activeHighlight.title}%20y%20quiero%20más%20detalles.`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3 bg-brand-blue hover:bg-brand-blue-hover text-brand-silver text-xs font-semibold rounded-xl text-center shadow-lg transition-colors flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <MessageSquare className="w-4 h-4" />
+            <span>Enviar Mensaje Rápido</span>
+          </a>
+        </div>
+
+        {/* Slide Navigation Triggers (Left / Right overlays) */}
+        <button
+          onClick={onPrev}
+          disabled={currentSlideIndex === 0}
+          className={`absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-black/40 backdrop-blur-sm text-brand-silver hover:text-brand-blue transition-opacity cursor-pointer ${
+            currentSlideIndex === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          onClick={onNext}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-black/40 backdrop-blur-sm text-brand-silver hover:text-brand-blue cursor-pointer"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+
+      </div>
+    </motion.div>,
+    document.body
   );
 }

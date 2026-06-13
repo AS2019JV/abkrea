@@ -28,8 +28,8 @@ export default function Header() {
     <header
       id="main-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "py-4 bg-brand-navy/60 backdrop-blur-md border-b border-brand-silver/5 shadow-lg"
+        isScrolled || isMobileMenuOpen
+          ? "py-4 bg-brand-navy border-b border-brand-silver/5 shadow-lg"
           : "py-6 bg-transparent"
       }`}
     >
@@ -88,7 +88,7 @@ export default function Header() {
 
       {/* Mobile Navigation Drawer */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed top-[73px] left-0 right-0 bottom-0 glass-apple flex flex-col justify-between p-8 z-40 animate-fade-in">
+        <div className="md:hidden fixed top-[73px] left-0 right-0 bottom-0 bg-brand-navy flex flex-col justify-between p-8 z-40 animate-fade-in">
           <nav className="flex flex-col gap-6 text-lg font-semibold">
             {["cursos", "nosotros", "certificaciones", "contacto"].map((section) => (
               <button

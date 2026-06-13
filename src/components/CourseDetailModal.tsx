@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, MessageSquare, Mail, Check, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -21,6 +22,12 @@ interface CourseDetailModalProps {
 }
 
 export default function CourseDetailModal({ course, onClose }: CourseDetailModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -108,12 +115,14 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
     course.title
   )}.`;
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex justify-center items-start md:items-center p-3 sm:p-4 overflow-y-auto"
       onClick={onClose}
     >
       <motion.div
@@ -126,7 +135,7 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
       >
         
         {/* Left Side: Dynamic Media showcase */}
-        <div className="relative h-72 md:h-full min-h-[300px] md:min-h-[450px] bg-brand-navy-light/40 overflow-hidden flex items-center justify-center">
+        <div className="relative h-56 md:h-full min-h-[220px] md:min-h-[450px] bg-brand-navy-light/40 overflow-hidden flex items-center justify-center">
           {/* Blurred duplicate background to fill spaces with premium aesthetics */}
           <Image
             src={course.image}
@@ -138,7 +147,7 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
           />
           
           {/* Clean Foreground containment displaying the entire flyer without cuts */}
-          <div className="relative w-full h-full min-h-[260px] md:min-h-[380px] p-4 flex items-center justify-center z-10">
+          <div className="relative w-full h-full min-h-[180px] md:min-h-[380px] p-4 flex items-center justify-center z-10">
             <Image
               src={course.image}
               alt={course.title}
@@ -160,7 +169,7 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
         </div>
 
         {/* Right Side: Syllabus details & lead form */}
-        <div className="p-6 md:p-8 flex flex-col gap-6 max-h-[85vh] overflow-y-auto">
+        <div className="p-5 md:p-8 flex flex-col gap-5 md:max-h-[85vh] md:overflow-y-auto">
           {/* Header */}
           <div className="flex justify-between items-start">
             <div className="flex flex-col">
@@ -330,6 +339,7 @@ export default function CourseDetailModal({ course, onClose }: CourseDetailModal
 
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }

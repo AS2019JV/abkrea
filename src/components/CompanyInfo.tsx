@@ -22,101 +22,128 @@ export default function CompanyInfo() {
       <div className="max-w-4xl mx-auto px-6 flex flex-col gap-16">
         
         {/* Section 1: Quiénes Somos / Misión / Visión */}
-        <div id="nosotros" className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start scroll-mt-20">
-          {/* Left: Who We Are & Mission */}
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
+        <div id="nosotros" className="flex flex-col gap-10 scroll-mt-20">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            <div className="md:col-span-7 flex flex-col gap-3">
               <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-brand-blue font-bold">Quiénes Somos</span>
               <h3 className="text-2xl sm:text-3xl font-black text-brand-silver tracking-tight">ABKREA Ingeniería</h3>
+              <p className="text-sm text-brand-silver/70 leading-relaxed">
+                Somos una empresa de capacitación técnica profesional basada en la ciudad de Ambato, Ecuador. Nos enfocamos en la capacitación continua en ingenierías clave como Mecánica, Mecatrónica, Industrial, Civil y Electrónica.
+              </p>
             </div>
-            <p className="text-sm text-brand-silver/70 leading-relaxed">
-              Somos una empresa de capacitación técnica profesional basada en la ciudad de Ambato, Ecuador. Nos enfocamos en la capacitación continua en ingenierías clave como Mecánica, Mecatrónica, Industrial, Civil y Electrónica.
-            </p>
-            <div className="glass-panel p-6 rounded-2xl border-l-4 border-l-brand-blue">
-              <span className="text-xs sm:text-sm font-mono uppercase tracking-wider text-brand-blue font-bold block mb-1">Misión</span>
-              <p className="text-xs sm:text-sm text-brand-silver/85 leading-relaxed">
-                Brindar capacitación continua en la zona centro del país con perfiles curriculares avalados y docentes certificados, logrando ampliar el perfil profesional y laboral de quienes optan por nuestros servicios.
+            {/* Symmetrical divider column */}
+            <div className="md:col-span-5 hidden md:block border-l border-brand-silver/5 pl-8 py-2">
+              <span className="text-xs font-mono text-brand-silver/45 uppercase tracking-widest block mb-2">Valores</span>
+              <p className="text-xs text-brand-silver/55 leading-relaxed">
+                Nuestra enseñanza combina rigor técnico y experiencia práctica en talleres, asegurando que cada egresado adquiera habilidades de alta demanda en la industria.
               </p>
             </div>
           </div>
 
-          {/* Right: Vision & Why SETEC matters */}
-          <div className="flex flex-col gap-6 md:pt-12">
-            <div className="glass-panel p-6 rounded-2xl border-l-4 border-l-brand-amber">
-              <span className="text-xs sm:text-sm font-mono uppercase tracking-wider text-brand-amber font-bold block mb-1">Visión</span>
-              <p className="text-xs sm:text-sm text-brand-silver/85 leading-relaxed">
-                Incrementar la oferta de cursos certificados abarcando especialidades de formación académica clave, y expandir nuestros servicios de capacitación de elite en las principales zonas de desarrollo del país.
-              </p>
+          {/* Misión & Visión Cards - Symmetrical Columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Misión Card */}
+            <div className="glass-panel p-6 rounded-2xl border-l-4 border-l-brand-blue flex flex-col sm:flex-row items-center gap-5 hover:border-l-brand-blue-hover transition-colors">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-blue" />
+                  <span className="text-xs sm:text-sm font-mono uppercase tracking-wider text-brand-blue font-bold">Misión</span>
+                </div>
+                <p className="text-xs text-brand-silver/85 leading-relaxed">
+                  Brindar capacitación continua en la zona centro del país con perfiles curriculares avalados y docentes certificados, logrando ampliar el perfil profesional y laboral de quienes optan por nuestros servicios.
+                </p>
+              </div>
+              {/* Sized-down live zoom classroom image */}
+              <div className="relative w-36 h-24 rounded-xl overflow-hidden border border-brand-silver/5 shadow-md flex-shrink-0">
+                <Image
+                  src="/images/web/capacitacion.webp"
+                  alt="Capacitación Misión"
+                  fill
+                  className="object-cover"
+                  sizes="150px"
+                />
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <span className="text-xs sm:text-sm font-mono text-brand-amber font-bold uppercase tracking-wider">Acreditación SETEC-CAL-2018-092</span>
-              <p className="text-xs sm:text-sm text-brand-silver/70 leading-relaxed">
-                Nuestros certificados cuentan con el aval oficial del Ministerio de Trabajo (MDT) y Senescyt, permitiendo el registro formal de horas de capacitación en la plataforma estatal y facilitando procesos de licitación pública y privada para empresas.
-              </p>
-            </div>
-          </div>
 
-          {/* F.1: Horizontal image banner certificados.webp - perfectly framed */}
-          <div className="col-span-1 md:col-span-2 w-full relative h-48 md:h-64 rounded-3xl overflow-hidden border border-brand-silver/10 shadow-2xl group my-4">
-            <Image
-              src="/images/web/certificados.webp"
-              alt="Certificaciones Técnicas de Soldadura y Metalmecánica ABKREA"
-              fill
-              className="object-cover group-hover:scale-[1.01] transition-transform duration-700"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-brand-navy/20" />
-            <div className="absolute bottom-4 left-6 z-10 flex items-center gap-2 text-xs font-mono text-brand-silver/80">
-              <ShieldCheck className="w-4.5 h-4.5 text-brand-blue" />
-              <span>Instalaciones y laboratorios equipados en Ambato</span>
+            {/* Visión Card */}
+            <div className="glass-panel p-6 rounded-2xl border-l-4 border-l-brand-amber flex flex-col sm:flex-row items-center gap-5 hover:border-l-brand-amber transition-colors">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-amber" />
+                  <span className="text-xs sm:text-sm font-mono uppercase tracking-wider text-brand-amber font-bold">Visión</span>
+                </div>
+                <p className="text-xs text-brand-silver/85 leading-relaxed">
+                  Incrementar la oferta de cursos certificados abarcando especialidades de formación académica clave, y expandir nuestros servicios de capacitación de elite en las principales zonas de desarrollo del país.
+                </p>
+              </div>
+              {/* Sized-down graduates certificates image */}
+              <div className="relative w-36 h-24 rounded-xl overflow-hidden border border-brand-silver/5 shadow-md flex-shrink-0">
+                <Image
+                  src="/images/web/certificados.webp"
+                  alt="Certificaciones de Graduados"
+                  fill
+                  className="object-cover"
+                  sizes="150px"
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* F.2: Full-width training image separator banner - capacitacion.webp */}
-        <div className="w-full relative h-52 md:h-72 rounded-3xl overflow-hidden border border-brand-silver/10 shadow-2xl group my-4">
-          <Image
-            src="/images/web/capacitacion.webp"
-            alt="Capacitación y formación técnica presencial ABKREA"
-            fill
-            className="object-cover group-hover:scale-[1.01] transition-transform duration-700"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/70 via-transparent to-brand-navy/30" />
-          <div className="absolute bottom-4 left-6 z-10 flex items-center gap-2 text-xs font-mono text-brand-silver/80">
-            <Award className="w-4.5 h-4.5 text-brand-amber" />
-            <span>Formación presencial con estándares de seguridad industrial</span>
-          </div>
-        </div>
-
-        {/* Section 2: Certificaciones Oficiales (Static Images) */}
-        <div id="certificaciones" className="flex flex-col gap-8 scroll-mt-20">
+        {/* Section 2: Acreditación Legal SETEC */}
+        <div id="certificaciones" className="flex flex-col gap-8 scroll-mt-20 border-t border-brand-silver/5 pt-12">
           <div className="flex flex-col gap-2 text-center md:text-left">
-            <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-brand-amber font-bold">Certificaciones Oficiales</span>
+            <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-brand-amber font-bold">Acreditación Legal</span>
             <h3 className="text-2xl sm:text-3xl font-black text-brand-silver tracking-tight">
               Acreditación Legal SETEC
             </h3>
-            <p className="text-brand-silver/60 text-xs sm:text-sm leading-relaxed max-w-xl">
-              Nuestra calificación oficial como Operador de Capacitación Profesional puede ser verificada en los registros del Ministerio de Trabajo.
-            </p>
           </div>
 
-          {/* F.3: Sized-up and responsive display of badgage.webp centered with premium glass border */}
-          <div className="flex flex-col items-center justify-center gap-6 max-w-xl mx-auto w-full">
-            <div className="relative glass-panel rounded-3xl overflow-hidden aspect-[4/5] border border-brand-silver/10 shadow-2xl w-full max-w-[340px] md:max-w-[380px] transition-all hover:scale-[1.01] hover:border-brand-silver/20 group">
-              <Image
-                src="/images/web/badgage.webp"
-                alt="Acreditación Oficial SETEC del Ministerio del Trabajo"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-102"
-                sizes="(max-width: 768px) 100vw, 400px"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/40 via-transparent to-transparent pointer-events-none" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left side: legal details & badge info */}
+            <div className="lg:col-span-7 flex flex-col gap-5">
+              <p className="text-brand-silver/70 text-xs sm:text-sm leading-relaxed">
+                Nuestra calificación oficial como Operador de Capacitación Profesional bajo la resolución <strong>SETEC-CAL-2018-092</strong> puede ser verificada en los registros del Ministerio del Trabajo. Nuestros certificados cuentan con el aval legal de la Secretaría Técnica del Sistema Nacional de Cualificaciones Profesionales (SETEC) y el Ministerio de Trabajo, permitiendo el registro formal de horas de capacitación técnica en el portal del gobierno y facilitando ascensos y procesos de licitación pública y privada para empresas (Incentivo B2B).
+              </p>
+              {/* Premium ministerial resolution tag */}
+              <div className="flex items-center gap-3 py-2 px-4 bg-brand-amber/5 border border-brand-amber/15 rounded-xl w-fit">
+                <span className="w-2 h-2 rounded-full bg-brand-amber animate-pulse" />
+                <span className="text-[11px] font-mono uppercase tracking-wider text-brand-amber font-bold">
+                  Resolución Ministerial SETEC-CAL-2018-092
+                </span>
+              </div>
             </div>
-            <span className="text-[10px] sm:text-xs font-mono text-brand-silver/50 tracking-wider text-center">
-              Resolución SETEC-CAL-2018-092 • Vigencia y validez nacional
-            </span>
+
+            {/* Right side: Composite Trust Showcase */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-[320px] aspect-[4/3] flex items-center justify-center">
+                {/* Main Graduates Photo Container */}
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-brand-silver/10 shadow-xl">
+                  <Image
+                    src="/images/web/certificados.webp"
+                    alt="Certificaciones de Capacitación"
+                    fill
+                    className="object-cover"
+                    sizes="320px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-brand-navy/10 to-transparent pointer-events-none" />
+                </div>
+                
+                {/* Overlapping SETEC Trust Seal Badge */}
+                <div className="absolute -bottom-4 -left-4 w-24 h-32 rounded-2xl border border-brand-amber/25 bg-brand-navy/95 backdrop-blur-md flex items-center justify-center shadow-[0_10px_30px_rgba(245,158,11,0.15)] transition-transform hover:scale-105 z-10 p-2">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src="/images/web/badgage.png"
+                      alt="Sello SETEC"
+                      fill
+                      className="object-contain"
+                      sizes="90px"
+                      priority
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* High-conversion Verification CTA Box */}

@@ -20,7 +20,13 @@ export default function VideoBackground() {
       console.log("Autoplay seek unlock caught:", err);
     });
 
+    // Determine responsive video scales: PC is standard, mobile is scaled up significantly
+    const isMobile = window.innerWidth < 768;
+    const initialScale = isMobile ? 1.65 : 0.95;
+    const targetScale = isMobile ? 1.45 : 0.85;
+
     // Set initial states to prevent flash of content and keep components hidden at start
+    gsap.set(video, { scale: initialScale });
     gsap.set("#main-header", { y: "-100%", opacity: 0 });
     gsap.set("#phrase-container", { opacity: 0, scale: 0.95 });
     gsap.set("#mira-cursos", { opacity: 0, y: 30 });
@@ -50,9 +56,9 @@ export default function VideoBackground() {
         if (video.duration) video.currentTime = videoState.time;
       },
     }, 0)
-    // Scale down the foreground video from 0.95 to 0.85 to counteract the truck sizing up (driving forward)
+    // Scale down the foreground video to counteract the truck sizing up (driving forward)
     .to(video, {
-      scale: 0.85,
+      scale: targetScale,
       duration: 2.0,
       ease: "power1.out",
     }, 0)
@@ -147,11 +153,11 @@ export default function VideoBackground() {
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-contain scale-[0.95] will-change-transform z-10"
+        className="absolute inset-0 w-full h-full object-contain will-change-transform z-10 translate-y-10 lg:translate-y-0"
         style={{ 
           objectPosition: "center",
-          maskImage: "radial-gradient(circle at center, black 65%, rgba(0, 0, 0, 0) 95%)",
-          WebkitMaskImage: "radial-gradient(circle at center, black 65%, rgba(0, 0, 0, 0) 95%)"
+          maskImage: "radial-gradient(circle at center, black 80%, rgba(0, 0, 0, 0) 98%)",
+          WebkitMaskImage: "radial-gradient(circle at center, black 80%, rgba(0, 0, 0, 0) 98%)"
         }}
       />
 
